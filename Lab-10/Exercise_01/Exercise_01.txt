@@ -1,0 +1,5 @@
+//Command use to create Users
+CREATE TABLE Users (user_id varchar(255) NOT NULL, PRIMARY KEY(user_id));
+
+//Command use to create Posts
+CREATE TABLE Posts (post_id int NOT NULL AUTO_INCREMENT, content LONGTEXT, author_id varchar(255) NOT NULL, PRIMARY KEY(post_id), FOREIGN KEY(author_id) REFERENCES Users(user_id));

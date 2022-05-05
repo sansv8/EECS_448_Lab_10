@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Delete Posts</title>
+	</head>
+	<body>
+		<h1>Delete Posts</h1>
+		<form method="post" action="./DeletePost.php">
+			<table style=\"border:solid 1px;\">
+				<tbody>
+					<tr>
+						<th style=\"border:solid 1px;\">Author</th>
+						<th style=\"border:solid 1px;\">Posts</th>
+						<th style=\"border:solid 1px;\">Delete?</th>
+					</tr>
+					<?php
+						//Connect to SQL Database
+						$mysqli = new mysqli("mysql.eecs.ku.edu", "a008p058", "iMa7ajag","a008p058");
+
+						//Checks connect
+						if($mysqli->connect_errno)
+						{
+							printf("Connect failed: %s\n", $mysqli->connect_error);
+							exit();
+						}
+
+						//Get all rows from Posts
+						$query = "SELECT * FROM Posts";
+
+						//Next, query Posts
+						if($result = $mysqli->query($query))
+						{
+							//Go through each row of result
+							//Loop through each row of Users
+							while($row = $result->fetch_assoc())
+							{
+								//Create a new row
+								echo "<tr>";
+
+								//Get the post_id, author_id, and content from row
+								$author = $row["author_id"];
+								$content = $row["content"];
+								$post = $row["post_id"];
+
+								//Add the author to table
+								echo "<td style=\"border:solid 1px;\">$author</td>";
+
+								//Add the content to table
+								echo "<td style=\"border:solid 1px;\">$content</td>";
+						
+								//Finally, add a checkbox that contains the id of the post
+								echo "<td style=\"border:solid 1px;\"><input type=\"checkbox\" name=\"id[]\" value=\"$post\"></td>";
+
+								//End the row
+								echo "</tr>";
+							}
+
+							//Free the result
+							$result->free();
+						}
+
+						//Close the connecton
+						$mysqli->close();
+					?>
+				</tbody>
+			</table>
+			<input type="submit">
+		</form>
+	</body>
+</html>
